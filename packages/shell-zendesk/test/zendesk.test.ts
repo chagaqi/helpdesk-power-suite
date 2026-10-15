@@ -45,8 +45,8 @@ describe('ZendeskHost end-to-end against the core API (fake ZAF + proxy)', () =>
     const api = new HpsApiClient(host);
     const state = await ensureInstalled(host, api, await host.currentUser());
     expect(state.state).toBe('ready');
-    expect(z.settings.shared_secret.length).toBeGreaterThan(30);
-    expect(JSON.stringify(await z.client.metadata())).not.toContain(z.settings.shared_secret);
+    expect(z.settings.shared_secret!.length).toBeGreaterThan(30);
+    expect(JSON.stringify(await z.client.metadata())).not.toContain(z.settings.shared_secret!);
 
     await z.deps.entitlements.grant('zendesk:acme', { plan: 'pro', status: 'active', source: 'manual', currentPeriodEnd: '2999-01-01T00:00:00Z' });
     const out = await runCursorExport(host, api, { entity: 'user', query: {}, filters: { userState: 'active', tags: { none: ['churn_risk'] } }, format: 'csv' });

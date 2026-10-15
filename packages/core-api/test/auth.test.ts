@@ -87,6 +87,14 @@ describe('InstallService (anti-spoofing)', () => {
     await expect(svc.verify(await svc.issueToken(a.sharedSecret, a.tenant, a.installationId, admin))).rejects.toThrow(/revoked/);
   });
 
+  it('uninstall revokes the installation and releases the tenant for a clean reinstall', async () => {
+    const svc = new InstallService(new InMemoryUsageStore(), { masterSecret: MASTER });
+    const a = await svc.register({ platform: 'freshdesk', tenant: 'globex' });
+    expect(await svc.uninstall(a.tenant, a.installationId)).toEqual({ released: true });
+    await expect(svc.verify(await svc.issueToken(a.sharedSecret, a.tenant, a.installationId, admin))).rejects.toThrow(/Unknown installation/);
+    expect((await svc.register({ platform: 'freshdesk', tenant: 'globex' })).created).toBe(true);
+  });
+
   it('sanitizes user claims (unknown roles become agent)', async () => {
     const svc = new InstallService(new InMemoryUsageStore(), { masterSecret: MASTER });
     const a = await svc.register({ platform: 'freshdesk', tenant: 'globex' });

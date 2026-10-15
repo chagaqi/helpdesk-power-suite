@@ -147,6 +147,22 @@ export class InstallService {
     );
   }
 
+  /**
+   * Uninstall: revokes the installation. When no active installation remains the tenant record and
+   * claim are released so a later fresh install can register again. Entitlements are keyed by
+   * tenant and survive (a Pro customer who reinstalls keeps Pro).
+   */
+  async uninstall(tenant: string, installationId: string): Promise<{ released: boolean }> {
+    await this.revoke(tenant, installationId);
+    const rec = await this.getRecord(tenant);
+    const active = Object.values(rec?.installations ?? {}).some((i) => !i.revokedAt);
+    if (!active) {
+      await this.store.del(recKey(tenant));
+      await this.store.del(`install-claim:${tenant}`);
+    }
+    return { released: !active };
+  }
+
   async revoke(tenant: string, installationId: string): Promise<void> {
     const rec = await this.getRecord(tenant);
     const inst = rec?.installations[installationId];

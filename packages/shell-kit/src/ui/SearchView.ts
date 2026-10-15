@@ -202,6 +202,7 @@ export class SearchView {
     const any = csvList(this.tagsAny.value);
     const none = csvList(this.tagsNone.value);
     if (any.length || none.length) f.tags = { ...(any.length ? { any } : {}), ...(none.length ? { none } : {}) };
+    if (this.host.localTextSearch && this.qInput.value.trim()) f.text = this.qInput.value.trim();
     if (this.entity === 'user') {
       f.userState = this.stateSel.value as ExportFilters['userState'];
       const roles = this.pressed(this.roleChips as Map<string, HTMLButtonElement>) as UserRole[];
@@ -216,7 +217,7 @@ export class SearchView {
   }
 
   private query() {
-    return { text: this.qInput.value.trim(), includeArchived: this.entity === 'ticket' ? this.archived.checked : undefined };
+    return { text: this.host.localTextSearch ? '' : this.qInput.value.trim(), includeArchived: this.entity === 'ticket' ? this.archived.checked : undefined };
   }
 
   /** Fetches the first page and renders it locally with the exact export pipeline (no upload). */

@@ -14,6 +14,7 @@ export interface RunOptions {
  * plan row limit, or when aborted. Cursor loops are detected and broken.
  */
 export async function runCursorExport(host: HostAdapter, api: HpsApiClient, req: ExportRequest, o: RunOptions = {}): Promise<ExportOutcome | null> {
+  if (host.runExport) return host.runExport(api, req, o);
   const fieldSchema = await host.fieldSchema(req.entity);
   const session = await api.createExportSession({ entity: req.entity, source: host.platform, fieldSchema, filters: req.filters, columns: req.columns });
   const p: ExportProgress = { pages: 0, received: 0, rows: 0, duplicates: 0, filteredOut: 0, limitReached: false, phase: 'fetching' };

@@ -10,3 +10,4 @@ packages/shell-zendesk/assets/*.js
 packages/shell-zendesk/assets/*.js.map
 packages/shell-freshworks/app/scripts/*.bundle.js
 packages/shell-freshworks/app/scripts/*.bundle.js.map
+packages/shell-freshworks/server/server.js

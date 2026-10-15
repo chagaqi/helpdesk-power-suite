@@ -155,6 +155,12 @@ export function createCoreApi(deps: CoreApiDeps) {
     );
   });
 
+  app.use('/v1/uninstall', auth, adminOnly);
+  app.post('/v1/uninstall', async (c) => {
+    const p = c.get('principal');
+    return c.json(await deps.installs.uninstall(p.tenant, p.installationId));
+  });
+
   app.use('/v1/me', auth);
   app.get('/v1/me', async (c) => {
     const p = c.get('principal');

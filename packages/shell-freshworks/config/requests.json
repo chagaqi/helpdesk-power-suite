@@ -1,0 +1,101 @@
+{
+  "hpsInstall": {
+    "schema": {
+      "method": "POST",
+      "host": "<%= iparam.api_host %>",
+      "path": "/v1/install",
+      "headers": { "Content-Type": "application/json" }
+    },
+    "options": { "maxAttempts": 2, "retryDelay": 1000 }
+  },
+  "hpsGet": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.api_host %>",
+      "path": "<%= context.path %>",
+      "headers": { "Authorization": "Bearer <%= context.token %>", "If-None-Match": "<%= context.etag %>" }
+    }
+  },
+  "hpsPost": {
+    "schema": {
+      "method": "POST",
+      "host": "<%= iparam.api_host %>",
+      "path": "<%= context.path %>",
+      "headers": { "Authorization": "Bearer <%= context.token %>", "Content-Type": "application/json" }
+    }
+  },
+  "hpsPut": {
+    "schema": {
+      "method": "PUT",
+      "host": "<%= iparam.api_host %>",
+      "path": "<%= context.path %>",
+      "headers": { "Authorization": "Bearer <%= context.token %>", "Content-Type": "application/json" }
+    }
+  },
+  "hpsDelete": {
+    "schema": {
+      "method": "DELETE",
+      "host": "<%= iparam.api_host %>",
+      "path": "<%= context.path %>",
+      "headers": { "Authorization": "Bearer <%= context.token %>" }
+    }
+  },
+  "fdTickets": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "/api/v2/tickets",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" },
+      "query": { "page": "<%= context.page %>", "per_page": "100", "updated_since": "<%= context.updated_since %>", "order_by": "updated_at", "order_type": "asc" }
+    },
+    "options": { "maxAttempts": 3, "retryDelay": 2000 }
+  },
+  "fdContacts": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "/api/v2/contacts",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" },
+      "query": { "page": "<%= context.page %>", "per_page": "100" }
+    },
+    "options": { "maxAttempts": 3, "retryDelay": 2000 }
+  },
+  "fdCompanies": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "/api/v2/companies",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" },
+      "query": { "page": "<%= context.page %>", "per_page": "100" }
+    },
+    "options": { "maxAttempts": 3, "retryDelay": 2000 }
+  },
+  "fsRequesters": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "/api/v2/requesters",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" },
+      "query": { "page": "<%= context.page %>", "per_page": "100" }
+    },
+    "options": { "maxAttempts": 3, "retryDelay": 2000 }
+  },
+  "fsDepartments": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "/api/v2/departments",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" },
+      "query": { "page": "<%= context.page %>", "per_page": "100" }
+    },
+    "options": { "maxAttempts": 3, "retryDelay": 2000 }
+  },
+  "fdMeta": {
+    "schema": {
+      "method": "GET",
+      "host": "<%= iparam.freshworks_domain %>",
+      "path": "<%= context.path %>",
+      "headers": { "Authorization": "Basic <%= encode(iparam.freshworks_api_key) %>" }
+    }
+  }
+}

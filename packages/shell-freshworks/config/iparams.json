@@ -1,0 +1,24 @@
+{
+  "api_host": {
+    "display_name": "Power Suite API host",
+    "description": "Host of the Helpdesk Power Suite API (no https://). Keep the default unless you self-host the gateway.",
+    "type": "text",
+    "required": true,
+    "default_value": "api.helpdeskpowersuite.com"
+  },
+  "freshworks_domain": {
+    "display_name": "Helpdesk domain",
+    "description": "Your Freshdesk or Freshservice domain, e.g. acme.freshdesk.com",
+    "type": "domain",
+    "type_attributes": { "product": "freshdesk" },
+    "required": true
+  },
+  "freshworks_api_key": {
+    "display_name": "Admin API key",
+    "description": "API key of an admin (Profile settings → View API key). Used server-side only to read tickets, contacts, companies and field definitions for exports.",
+    "type": "api_key",
+    "secure": true,
+    "required": true,
+    "type_attributes": { "product": "freshdesk" }
+  }
+}

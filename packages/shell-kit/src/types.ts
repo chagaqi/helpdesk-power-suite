@@ -55,6 +55,13 @@ export interface HostAdapter {
   openUrl(url: string): void;
   notify?(message: string, kind?: 'notice' | 'alert' | 'error'): void;
   supportsEntity?(entity: EntityType): boolean;
+  /**
+   * Optional server-side export driver (e.g. FDK serverless pulls pages and pushes them to HPS
+   * server-to-server). When present it replaces the browser page loop.
+   */
+  runExport?(api: import('./api.js').HpsApiClient, req: ExportRequest, opts: { onProgress?: (p: ExportProgress) => void; signal?: AbortSignal }): Promise<ExportOutcome | null>;
+  /** True when the platform search API is too limited: the query text becomes a local text filter. */
+  localTextSearch?: boolean;
 }
 
 export interface ExportRequest {
