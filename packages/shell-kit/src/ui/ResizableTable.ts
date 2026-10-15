@@ -78,7 +78,8 @@ export class ResizableTable {
     handle.addEventListener('pointerdown', (e) => {
       e.preventDefault();
       const startX = e.clientX;
-      const start = this.widthOf(key);
+      // Start from the rendered width: the table stretches columns to fill its container.
+      const start = Math.round(handle.parentElement?.getBoundingClientRect().width || this.widthOf(key));
       handle.classList.add('active');
       handle.setPointerCapture?.(e.pointerId);
       const move = (ev: PointerEvent) => this.setWidth(key, start + ev.clientX - startX);
@@ -91,8 +92,9 @@ export class ResizableTable {
       handle.addEventListener('pointerup', up);
     });
     handle.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') this.setWidth(key, this.widthOf(key) + 16);
-      if (e.key === 'ArrowLeft') this.setWidth(key, this.widthOf(key) - 16);
+      const current = Math.round(handle.parentElement?.getBoundingClientRect().width || this.widthOf(key));
+      if (e.key === 'ArrowRight') this.setWidth(key, current + 16);
+      if (e.key === 'ArrowLeft') this.setWidth(key, current - 16);
     });
     handle.addEventListener('dblclick', () => {
       const i = this.columns.findIndex((c) => c.key === key);

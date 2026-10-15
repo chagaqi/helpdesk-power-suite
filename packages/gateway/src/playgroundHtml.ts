@@ -11,7 +11,8 @@ export function playgroundHtml(nonce: string, o: { maxRecords: number; rateLimit
 @media (prefers-color-scheme: dark){:root{--bg:#0f141a;--card:#161d25;--fg:#e6edf3;--muted:#98a4b0;--border:#2b3642;--accent:#4c9be8;--accent-fg:#0b1118;--ok:#3fbf86;--warn:#e0a24a;--bad:#ff6b77;--chip:#1e2833}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 header{padding:28px 16px 8px;max-width:1180px;margin:0 auto}header h1{margin:0;font-size:26px}header p{margin:6px 0 0;color:var(--muted);max-width:760px}
-main{max-width:1180px;margin:0 auto;padding:12px 16px 48px;display:grid;gap:20px}
+main{max-width:1180px;margin:0 auto;padding:12px 16px 48px;display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+.card{min-width:0}.rule>*{min-width:0}input,select{min-width:0;max-width:100%}
 .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
 .card h2{margin:0 0 4px;font-size:19px}.card .sub{color:var(--muted);margin:0 0 16px;font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:12px}
@@ -29,7 +30,7 @@ button.primary{background:var(--accent);color:var(--accent-fg)}button:disabled{o
 table{border-collapse:separate;border-spacing:0;table-layout:fixed;width:max-content;min-width:100%;font-size:13px}
 th,td{padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
 th{position:sticky;top:0;background:var(--chip);user-select:none}th .grip{position:absolute;right:0;top:0;bottom:0;width:6px;cursor:col-resize}th .grip:hover{background:var(--accent)}
-.rule{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.3fr auto;gap:8px;align-items:end;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.rule{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.3fr auto;gap:8px;align-items:start;padding:10px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
 @media (max-width:760px){.rule{grid-template-columns:1fr 1fr}}
 .effects{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}.effects li{padding:8px 10px;border-radius:6px;background:var(--chip)}
 .pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;margin-left:6px;border:1px solid var(--border)}
