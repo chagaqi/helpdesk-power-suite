@@ -1,5 +1,5 @@
 {
-  "$comment": "Example Gorgias HTTP integration (Settings → Integrations → HTTP → Add HTTP integration). See README.md: the X-HPS-Signature header must be an HMAC-SHA256 of the exact request body, so requests are routed through the HPS signing relay or a proxy that holds the widget secret.",
+  "$comment": "Example Gorgias HTTP integration (Settings → Integrations → HTTP → Add HTTP integration). Authenticate with the static per-account token (see README.md → Authentication).",
   "name": "Helpdesk Power Suite — field rules",
   "description": "Returns hide / read-only / required hints for this ticket's fields, evaluated against the rules built by field name in Helpdesk Power Suite.",
   "url": "https://YOUR-GATEWAY.example.com/gorgias/widget",
@@ -13,7 +13,7 @@
   },
   "headers": {
     "Content-Type": "application/json",
-    "X-HPS-Signature": "sha256=<hex HMAC-SHA256(HPS_GORGIAS_WIDGET_SECRET, raw request body)>"
+    "X-HPS-Account-Token": "<hex HMAC-SHA256(GORGIAS_WIDGET_SECRET, \"gorgias-account:YOUR-ACCOUNT\")>"
   },
   "form": {
     "account": "YOUR-ACCOUNT",
@@ -34,7 +34,7 @@
     }
   },
   "export_example": {
-    "$comment": "Body for POST /gorgias/export (same signature scheme). Entity 'user' with userKind 'customers' | 'agents'.",
+    "$comment": "Body for POST /gorgias/export (same authentication). Entity 'user' with userKind 'customers' | 'agents'.",
     "url": "https://YOUR-GATEWAY.example.com/gorgias/export",
     "method": "POST",
     "body": {

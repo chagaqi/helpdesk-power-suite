@@ -11,9 +11,11 @@
 
 | Setting | Used for |
 | --- | --- |
-| `HPS_GORGIAS_WIDGET_SECRET` (≥ 16 chars) | The `widgetSecret` that verifies `X-HPS-Signature`. |
-| `HPS_PUBLIC_BASE_URL` | The `publicBaseUrl` that prefixes signed download links. |
-| Gorgias API credentials per account (email + API key) | Returned by `clientFactory(account)`. Without them `/gorgias/export` answers `404 not_found`. |
+| `GORGIAS_WIDGET_SECRET` (≥ 16 chars) | The `widgetSecret` that verifies requests (static account token or `X-HPS-Signature`). |
+| `PUBLIC_BASE_URL` | The `publicBaseUrl` that prefixes signed download links. |
+| `GORGIAS_ACCOUNTS` (`acme=ops@acme.com:API_KEY,...`) | Gorgias API credentials per account, returned by `clientFactory(account)`. Without them `/gorgias/export` answers `404 not_found`. |
+
+The bundled gateway (`packages/gateway`) mounts these routes automatically when `GORGIAS_WIDGET_SECRET` is set; the snippet below shows the equivalent manual composition.
 
 ```ts
 import { createGorgiasRoutes, GorgiasClient } from '@hps/shell-gorgias';
@@ -26,7 +28,7 @@ root.route('/', createGorgiasRoutes({
   store: deps.store,
   signer: deps.signer,
   publicBaseUrl: deps.config.publicBaseUrl,
-  widgetSecret: process.env.HPS_GORGIAS_WIDGET_SECRET!,
+  widgetSecret: process.env.GORGIAS_WIDGET_SECRET!,
   downloadTtlSec: deps.config.downloadTtlSec,
   clientFactory: async (account) => {
     const creds = await loadGorgiasCredentials(account); // your secret store
@@ -54,9 +56,19 @@ In **Settings → Integrations → HTTP → Add HTTP integration**, enter the va
 - **Body:** the `form` template. Gorgias substitutes the `{{ticket.*}}` variables. The route accepts tags as a list or as a comma-separated string. It also accepts `custom_fields` as an object keyed by field id, a `[{id, value}]` array or a JSON string.
 - **Response:** shows as data in the ticket's customer sidebar widget, where you can choose which keys to display (for example `hints` and `requiredMissing`).
 
-### About the signature header
+### Authentication
 
-Every request must carry `X-HPS-Signature: sha256=<hex HMAC-SHA256(widgetSecret, rawBody)>`. The check uses a constant-time compare and rejects with `401` otherwise. Gorgias HTTP integrations send **static** headers only, so they cannot compute a per-request MAC. Point the integration at a relay that you control and that holds the secret (an edge function, or your own gateway route). The relay signs the exact body bytes and forwards them to `/gorgias/widget`. Never put the secret in a header template.
+Two schemes are accepted (both compared in constant time, `401` otherwise):
+
+1. **Static per-account token (recommended for Gorgias).** Gorgias HTTP integrations can only send fixed headers, so add
+   `X-HPS-Account-Token: <token>` where `token = hex HMAC-SHA256(GORGIAS_WIDGET_SECRET, "gorgias-account:<account>")`.
+   The token is bound to the `account` in the body: one account's token cannot act for another. Generate it with
+   `node -e "console.log(require('crypto').createHmac('sha256', process.env.GORGIAS_WIDGET_SECRET).update('gorgias-account:acme').digest('hex'))"`.
+   Rotating `GORGIAS_WIDGET_SECRET` revokes every token.
+2. **Per-request body signature** for callers that can compute it (relays, your own services):
+   `X-HPS-Signature: sha256=<hex HMAC-SHA256(GORGIAS_WIDGET_SECRET, rawBody)>`.
+
+Never put the widget secret itself in a header template.
 
 ## Role mapping and audience
 

@@ -113,6 +113,8 @@ describe('POST /gorgias/widget', () => {
 
   it('accepts the static per-account token (Gorgias sends fixed headers) bound to the body account', async () => {
     const token = await gorgiasAccountToken(SECRET, 'acme');
+    // Same value as the documented one-liner in widget/README.md.
+    expect(token).toBe((await import('node:crypto')).createHmac('sha256', SECRET).update('gorgias-account:acme').digest('hex'));
     const post = (account: string, t = token) =>
       app.request('/gorgias/widget', { method: 'POST', headers: { 'Content-Type': 'application/json', [ACCOUNT_TOKEN_HEADER]: t }, body: JSON.stringify({ account, ticket: { id: 1, tags: ['vip'] } }) });
     expect((await post('acme')).status).toBe(200);

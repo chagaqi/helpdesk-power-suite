@@ -1,0 +1,34 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: redis-server for the RESP client tests
+        run: sudo apt-get update && sudo apt-get install -y redis-server
+      - name: Install Chromium for headless E2E
+        run: |
+          npx playwright-core install --with-deps chromium
+          echo "HPS_CHROMIUM=$(node -e "import('playwright-core').then(m => console.log(m.chromium.executablePath()))")" >> "$GITHUB_ENV"
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run validate
+      - run: npx vitest run
+      - run: npm run package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: marketplace-packages
+          path: |
+            packages/shell-zendesk/dist/*.zip
+            packages/shell-freshworks/dist/*.zip
+            packages/gateway/dist/server.mjs
