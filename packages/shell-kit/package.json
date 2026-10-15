@@ -2,5 +2,13 @@
   "name": "@hps/shell-kit",
   "version": "1.0.0",
   "private": true,
-  "type": "module"
+  "description": "Platform-neutral browser kit shared by helpdesk shells: HPS API client, cursor export runner, zero-flicker rule enforcer, search/export and rule-builder UI.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./enforcer": "./src/enforcer.ts"
+  },
+  "dependencies": {
+    "@hps/core-api": "1.0.0"
+  }
 }

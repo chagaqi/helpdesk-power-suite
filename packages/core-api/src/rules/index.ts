@@ -3,3 +3,4 @@ export * from './types.js';
 export * from './catalog.js';
 export * from './evaluate.js';
 export * from './plan.js';
+export type * from '../types.js';

@@ -2,5 +2,18 @@
   "name": "@hps/shell-zendesk",
   "version": "1.0.0",
   "private": true,
-  "type": "module"
+  "description": "Zendesk ZAF v2 app: nav_bar Advanced Cursor Search/Export + Field Rule Admin, ticket_sidebar/new_ticket_sidebar zero-flicker field rule enforcer.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "@hps/core-api": "1.0.0",
+    "@hps/shell-kit": "1.0.0"
+  }
 }

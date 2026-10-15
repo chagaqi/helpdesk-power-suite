@@ -1,0 +1,42 @@
+{
+  "name": "Helpdesk Power Suite: Cursor Export & Field Rules",
+  "author": {
+    "name": "Helpdesk Power Suite",
+    "email": "support@helpdeskpowersuite.com",
+    "url": "https://helpdeskpowersuite.com"
+  },
+  "defaultLocale": "en",
+  "private": false,
+  "location": {
+    "support": {
+      "nav_bar": {
+        "url": "assets/nav.html"
+      },
+      "ticket_sidebar": {
+        "url": "assets/sidebar.html",
+        "flexible": true
+      },
+      "new_ticket_sidebar": {
+        "url": "assets/sidebar.html",
+        "flexible": true
+      }
+    }
+  },
+  "version": "1.0.0",
+  "frameworkVersion": "2.0",
+  "domainWhitelist": ["api.helpdeskpowersuite.com"],
+  "parameters": [
+    {
+      "name": "api_base_url",
+      "type": "url",
+      "required": true,
+      "default": "https://api.helpdeskpowersuite.com"
+    },
+    {
+      "name": "shared_secret",
+      "type": "text",
+      "secure": true,
+      "required": false
+    }
+  ]
+}
