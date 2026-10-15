@@ -1,0 +1,23 @@
+{
+  "name": "@hps/gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-file deployable server (dist/server.mjs): core API, Redis/in-memory stores, Polar/Stripe webhooks, Gorgias/Intercom companion routes and the /playground demo.",
+  "type": "module",
+  "main": "dist/server.mjs",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node dist/server.mjs"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.17",
+    "@hps/core-api": "1.0.0",
+    "@hps/shell-gorgias": "1.0.0",
+    "@hps/shell-intercom": "1.0.0",
+    "hono": "^4.7.0",
+    "zod": "^3.25.76"
+  }
+}

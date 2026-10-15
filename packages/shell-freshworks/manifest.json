@@ -1,0 +1,64 @@
+{
+  "platform-version": "3.0",
+  "modules": {
+    "common": {
+      "location": {
+        "full_page_app": {
+          "url": "index.html",
+          "icon": "styles/images/icon.svg"
+        }
+      },
+      "events": {
+        "onAppInstall": { "handler": "onAppInstallHandler" },
+        "onAppUninstall": { "handler": "onAppUninstallHandler" }
+      },
+      "requests": {
+        "hpsInstall": {},
+        "hpsGet": {},
+        "hpsPost": {},
+        "hpsPut": {},
+        "hpsDelete": {},
+        "fdTickets": {},
+        "fdContacts": {},
+        "fdCompanies": {},
+        "fsRequesters": {},
+        "fsDepartments": {},
+        "fdMeta": {}
+      },
+      "functions": {
+        "hpsCall": { "timeout": 20 },
+        "fdPage": { "timeout": 20 },
+        "exportStep": { "timeout": 20 }
+      }
+    },
+    "support_ticket": {
+      "location": {
+        "ticket_sidebar": {
+          "url": "sidebar.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "ticket_background": {
+          "url": "background.html"
+        },
+        "new_ticket_background": {
+          "url": "background.html"
+        }
+      }
+    },
+    "service_ticket": {
+      "location": {
+        "ticket_sidebar": {
+          "url": "sidebar.html",
+          "icon": "styles/images/icon.svg"
+        },
+        "ticket_background": {
+          "url": "background.html"
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": "18.20.8",
+    "fdk": "9.6.0"
+  }
+}

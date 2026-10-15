@@ -1,0 +1,48 @@
+{
+  "$comment": "Example Gorgias HTTP integration (Settings → Integrations → HTTP → Add HTTP integration). Authenticate with the static per-account token (see README.md → Authentication).",
+  "name": "Helpdesk Power Suite — field rules",
+  "description": "Returns hide / read-only / required hints for this ticket's fields, evaluated against the rules built by field name in Helpdesk Power Suite.",
+  "url": "https://YOUR-GATEWAY.example.com/gorgias/widget",
+  "method": "POST",
+  "request_content_type": "application/json",
+  "response_content_type": "application/json",
+  "triggers": {
+    "ticket-created": true,
+    "ticket-updated": true,
+    "ticket-message-created": false
+  },
+  "headers": {
+    "Content-Type": "application/json",
+    "X-HPS-Account-Token": "<hex HMAC-SHA256(GORGIAS_WIDGET_SECRET, \"gorgias-account:YOUR-ACCOUNT\")>"
+  },
+  "form": {
+    "account": "YOUR-ACCOUNT",
+    "ticket": {
+      "id": "{{ticket.id}}",
+      "status": "{{ticket.status}}",
+      "channel": "{{ticket.channel}}",
+      "tags": "{{ticket.tags}}",
+      "custom_fields": "{{ticket.custom_fields}}",
+      "assignee_user": {
+        "id": "{{ticket.assignee_user.id}}",
+        "role": { "name": "{{ticket.assignee_user.role.name}}" }
+      },
+      "assignee_team": {
+        "id": "{{ticket.assignee_team.id}}",
+        "name": "{{ticket.assignee_team.name}}"
+      }
+    }
+  },
+  "export_example": {
+    "$comment": "Body for POST /gorgias/export (same authentication). Entity 'user' with userKind 'customers' | 'agents'.",
+    "url": "https://YOUR-GATEWAY.example.com/gorgias/export",
+    "method": "POST",
+    "body": {
+      "account": "YOUR-ACCOUNT",
+      "entity": "user",
+      "userKind": "customers",
+      "format": "xlsx",
+      "filters": { "userState": "active", "tags": { "none": ["spam"] } }
+    }
+  }
+}

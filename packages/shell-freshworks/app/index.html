@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Helpdesk Power Suite</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@freshworks/crayons@v4/dist/crayons/crayons.js"></script>
+    <script src="{{{appclient}}}"></script>
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+  </head>
+  <body>
+    <header class="hps-fw-header">
+      <img src="styles/images/icon.svg" alt="" width="28" height="28" />
+      <div>
+        <h1>Helpdesk Power Suite</h1>
+        <p>Cursor-paginated exports with custom fields &amp; zero-flicker field rules by group, role and tag.</p>
+      </div>
+      <fw-button id="help" color="secondary" size="small" onclick="window.open('https://helpdeskpowersuite.com/docs/freshworks','_blank','noopener')">Help</fw-button>
+    </header>
+    <main id="app"></main>
+    <script src="scripts/app.bundle.js"></script>
+  </body>
+</html>

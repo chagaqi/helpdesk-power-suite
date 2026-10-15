@@ -1,0 +1,15 @@
+{
+  "name": "@hps/shell-gorgias",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@hps/core-api": "1.0.0",
+    "hono": "^4.7.0",
+    "zod": "^3.25.76"
+  },
+  "description": "Gorgias companion: cursor export adapter and HTTP-integration widget routes (field-rule hints, signed export links)."
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@hps/shell-freshworks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Freshworks FDK v9 (platform 3.0) Crayons app for Freshdesk & Freshservice: full_page_app search/export + rule builder, ticket_sidebar / ticket_background zero-flicker field enforcement, serverless JWT signer.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "@hps/core-api": "1.0.0",
+    "@hps/shell-kit": "1.0.0"
+  }
+}

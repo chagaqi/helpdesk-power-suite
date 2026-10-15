@@ -1,0 +1,18 @@
+{
+  "name": "@hps/core-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Headless engine: streaming cursor export (CSV/XLSX), visual field rule compiler, entitlements, install-token verification.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./rules": "./src/rules/index.ts",
+    "./export": "./src/export/index.ts",
+    "./types": "./src/types.ts"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "hono": "^4.7.0",
+    "zod": "^3.25.76"
+  }
+}

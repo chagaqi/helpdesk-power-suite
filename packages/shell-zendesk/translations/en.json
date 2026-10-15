@@ -1,0 +1,25 @@
+{
+  "app": {
+    "name": "Helpdesk Power Suite: Cursor Export & Field Rules",
+    "short_description": "Export 50,000+ tickets, users & orgs to CSV/Excel with custom fields — and hide, lock or require ticket fields per group, role or tag by field name, with zero flicker.",
+    "long_description": "**Advanced Cursor Search & Export**\n\n- No 1,000-result wall: cursor pagination streams every page of tickets, users and organizations (50,000+ rows).\n- Include archived tickets with one toggle.\n- Every custom ticket, user and organization field exported under its human-readable title.\n- Filter users by active vs. suspended, role (Admin / Agent / Light agent / End-user) and tag inclusion/exclusion.\n- Strict de-duplication by ID: switching tabs or retrying never duplicates rows.\n- Resizable columns and sticky column presets.\n- 1-click UTF-8 CSV (opens cleanly in Excel) or styled multi-column .xlsx.\n\n**Visual Field Rules (no numeric field IDs)**\n\n- Pick fields by name, build rules per group, per role and per tag.\n- Hide, make read-only, require, or set a value — ordered by priority, with override rules.\n- Rules are cached in the agent's browser and applied the instant a ticket opens: no flashing hidden fields.\n- Preview exactly what any agent will see before you publish.\n\n**Plans**: Free — exports up to 250 rows and 2 field rules. Pro ($19/month) — unlimited exports and unlimited rules.",
+    "installation_instructions": "1. Install the app and keep the default API URL (or your self-hosted gateway URL — add its host to the manifest domainWhitelist when self-hosting).\n2. As an admin, open the Power Suite icon in the left navigation bar once. The app registers your account and stores its signing secret in a secure setting automatically.\n3. Use **Advanced Search & Export** to export records, and **Field Rules** to build rules by field name. Agents get rules enforced automatically in the ticket sidebar.",
+    "description": "Cursor-paginated CSV/XLSX export with custom fields, plus zero-flicker field rules by group, role and tag.",
+    "parameters": {
+      "api_base_url": {
+        "label": "Power Suite API URL",
+        "helpText": "Leave as default unless you self-host the Helpdesk Power Suite gateway."
+      },
+      "shared_secret": {
+        "label": "Signing secret (managed automatically)",
+        "helpText": "Filled in automatically the first time an admin opens the app. Leave blank."
+      }
+    }
+  },
+  "nav": {
+    "title": "Power Search, Export & Field Rules"
+  },
+  "sidebar": {
+    "loading": "Applying field rules…"
+  }
+}
