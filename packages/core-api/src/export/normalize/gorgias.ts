@@ -35,7 +35,7 @@ export function normalizeGorgias(entity: EntityType, input: unknown): Normalized
         assignee_id: idStr(assignee.id),
         group_id: idStr(objectOrEmpty(r.assignee_team).id),
         organization_id: null,
-        brand_id: idStr(objectOrEmpty(r.integrations).id ?? null),
+        brand_id: null,
         form_id: null,
       },
     };
@@ -60,7 +60,10 @@ export function normalizeGorgias(entity: EntityType, input: unknown): Normalized
       role,
       suspended: r.active === false || r.deleted_datetime != null,
       tags: tagList(r.tags ?? data.tags),
-      customFields: { ...objectOrEmpty(r.meta), ...data },
+      // Scalar attributes only: nested `data`/`meta` entries are integration payloads (Shopify, etc.), not fields.
+      customFields: Object.fromEntries(
+        Object.entries({ ...objectOrEmpty(r.meta), ...data }).filter(([, v]) => v === null || typeof v !== 'object'),
+      ),
       fields: {
         name,
         email: str(r.email),

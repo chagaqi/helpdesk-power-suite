@@ -190,7 +190,7 @@ describe('Module A over HTTP', () => {
     const res = await call(ctx, 'POST', '/v1/export/stream', { entity: 'user', source: 'zendesk', fieldSchema: userSchema, filters: { roles: ['admin', 'agent'] }, records: [...users, ...users.slice(0, 200)], columns: ['Email', 'Role', 'Customer Plan', 'Suspended'] });
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toBe('text/csv; charset=utf-8');
-    expect(res.headers.get('x-hps-duplicates-removed')).toBe(String(users.slice(0, 200).filter(wanted).length));
+    expect(res.headers.get('x-hps-duplicates-removed')).toBe('200'); // every re-sent record, kept or filtered
     const text = new TextDecoder('utf-8', { ignoreBOM: true }).decode(await res.arrayBuffer());
     expect(text.startsWith(UTF8_BOM)).toBe(true);
     const rows = parseCsv(text);

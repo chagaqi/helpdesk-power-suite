@@ -97,6 +97,8 @@ export class ExportSession {
   private readonly schemaByKey: Map<string, CustomFieldDef>;
   private readonly filter: CompiledFilter;
   private readonly rowsById = new Map<string, StoredRow>();
+  /** IDs rejected by the filter (with their version time) so re-sent copies count as duplicates. */
+  private readonly filteredIds = new Map<string, number>();
   private readonly seenCursors = new Set<string>();
   private readonly discoveredCustomKeys = new Set<string>();
   private readonly fixedColumns?: ColumnSpec[];
@@ -188,6 +190,7 @@ export class ExportSession {
         if (!passes) {
           // Newer state no longer matches (e.g. user got suspended between pages): drop it.
           this.rowsById.delete(rec.id);
+          this.filteredIds.set(rec.id, updatedAt);
           result.filteredOut++;
           return;
         }
@@ -197,7 +200,14 @@ export class ExportSession {
         result.updated++;
         return;
       }
-      if (!passes) {
+      const filteredAt = this.filteredIds.get(rec.id);
+      if (filteredAt !== undefined) {
+        // Already seen and filtered out: a re-sent copy is a duplicate unless a newer version now matches.
+        result.duplicates++;
+        if (!passes || !keepLatest || updatedAt < filteredAt) return;
+        this.filteredIds.delete(rec.id);
+      } else if (!passes) {
+        this.filteredIds.set(rec.id, updatedAt);
         result.filteredOut++;
         return;
       }

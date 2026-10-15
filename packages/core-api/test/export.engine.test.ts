@@ -63,6 +63,18 @@ describe('CursorExportEngine — >1,000 rows via cursor pagination', () => {
   });
 });
 
+describe('dedupe accounting', () => {
+  it('counts re-sent copies of filtered-out records as duplicates, but admits a newer matching version', () => {
+    const s = new ExportSession({ entity: 'user', source: 'zendesk', filters: { userState: 'active' } });
+    const u = { id: 1, role: 'end-user', suspended: true, updated_at: '2024-01-01T00:00:00Z' };
+    s.ingest({ cursor: null, nextCursor: 'a', records: [u] });
+    const r = s.ingest({ cursor: 'a', nextCursor: 'b', records: [u] });
+    expect(r).toMatchObject({ duplicates: 1, filteredOut: 0 });
+    s.ingest({ cursor: 'b', nextCursor: null, records: [{ ...u, suspended: false, updated_at: '2024-02-01T00:00:00Z' }] });
+    expect(s.stats).toMatchObject({ rows: 1, filteredOut: 1, duplicatesDropped: 2 });
+  });
+});
+
 describe('filters', () => {
   const users = zendeskUsers(700);
   const run = (filters: ConstructorParameters<typeof ExportSession>[0]['filters']) =>
