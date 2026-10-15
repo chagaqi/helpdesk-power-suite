@@ -1,0 +1,38 @@
+{
+  "name": "helpdesk-power-suite",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Headless export + field-rule engine with Zendesk, Freshworks, Gorgias and Intercom shells.",
+  "type": "module",
+  "workspaces": [
+    "packages/core-api",
+    "packages/shell-kit",
+    "packages/shell-zendesk",
+    "packages/shell-freshworks",
+    "packages/shell-gorgias",
+    "packages/shell-intercom",
+    "packages/gateway"
+  ],
+  "engines": {
+    "node": ">=20.10"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:e2e": "npm run build && vitest run --project e2e",
+    "verify": "npm run typecheck && npm run build && npm run validate && vitest run",
+    "validate": "npm run validate --workspaces --if-present",
+    "package": "npm run build && npm run package --workspaces --if-present",
+    "start": "node packages/gateway/dist/server.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "esbuild": "^0.28.2",
+    "fflate": "^0.8.2",
+    "playwright-core": "1.56.1",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.4"
+  }
+}
