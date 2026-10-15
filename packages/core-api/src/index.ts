@@ -30,6 +30,7 @@ export { RedisUsageStore, UpstashRestClient, type RedisCommander } from './store
 export { RateLimiter } from './util/rateLimit.js';
 export { HpsError } from './util/errors.js';
 export { hmacSha256Hex, hmacSha256B64Url, randomId, sha256Hex, timingSafeEqual } from './util/crypto.js';
+export { bytesToBase64, bytesToBase64Url, base64ToBytes } from './util/encoding.js';
 export { createCoreApi, type CoreApiConfig, type CoreApiDeps, type AppEnv } from './http/app.js';
 export * as synthetic from './demo/synthetic.js';
 
